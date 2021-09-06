@@ -1,3 +1,3 @@
-from indeed import seek_jobs
+from indeed import extract_job
 
-seek_jobs()
+extract_job()
