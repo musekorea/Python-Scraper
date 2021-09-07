@@ -27,7 +27,7 @@ def seek_jobs():
       return
   return soups
 
-def extract_job():
+def extract_job_indeed():
   soups = seek_jobs()
   jobs = []    
   for soup in soups:      
@@ -42,9 +42,9 @@ def extract_job():
       location=result.find("div", {"class":"companyLocation"}).get_text()
       if result["href"].startswith("/rc"):
         link = result["href"]
-        print(link)
+        
       else:
         continue
-      jobs.append({"title":job_title, "comapany":companies, "location":location, "link":"https://www.indeed.com"+link})
-      print(jobs)
+      jobs.append({"title":job_title, "company":companies, "location":location, "link":"https://www.indeed.com"+link})
+      
   return jobs

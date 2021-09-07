@@ -12,8 +12,9 @@ def get_last_pages():
   last_page = pages[-2].get_text().strip()
   return int(last_page)
 
-def get_jobs():
-  for page in range(0,1):
+def extract_job_stack():
+  stack_jobs=[]
+  for page in range(1,get_last_pages()):
     results = requests.get(URL+f"{page}", headers=headers)
     results.raise_for_status()
     print(f'page={page}',results.status_code)
@@ -22,7 +23,6 @@ def get_jobs():
     for job in jobs:
       titles = job.find("a", {"class":["s-link","stretched-link"]})
       companies = job.find("h3", {"class":"fc-black-700"})
-      
       if titles==None:
         continue
       else:
@@ -33,12 +33,9 @@ def get_jobs():
       else:
         company = companies.find("span").get_text().strip()
         location = companies.find("span", {"class":"fc-black-500"}).get_text().strip()
+      stack_jobs.append({"title":title, "company":company, "location":location,"link":link})
       
-      print(company, title, link, location)
-      print("=="*40)
-    
-    
+  return stack_jobs
 
-get_jobs()
 
 
