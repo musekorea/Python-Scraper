@@ -1,9 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 
-indeed_URL = "https://www.indeed.com/jobs?q=python&limit=50"
 
-def extract_last_page():
+
+def extract_last_page(query):
+  indeed_URL = f"https://www.indeed.com/jobs?q={query}&limit=50"
   indeed_res = requests.get(indeed_URL)
   indeed_soup = BeautifulSoup(indeed_res.text,"lxml")
   pagination = indeed_soup.find("div", attrs={"class":"pagination"})
@@ -14,8 +15,9 @@ def extract_last_page():
   last_page = pageSpans[-1]
   return last_page
 
-def seek_jobs():
-  last_page=extract_last_page()
+def seek_jobs(query):
+  last_page=extract_last_page(query)
+  indeed_URL = f"https://www.indeed.com/jobs?q={query}&limit=50"
   soups=[]
   for page in range(0,last_page):
     result = requests.get(indeed_URL+f"&start={page*50}")
@@ -27,8 +29,8 @@ def seek_jobs():
       return
   return soups
 
-def extract_job_indeed():
-  soups = seek_jobs()
+def extract_job_indeed(query):
+  soups = seek_jobs(query)
   jobs = []    
   for soup in soups:      
     results = soup.find_all("a",  {"class":["tapItem","fs-unmask","result"]})
