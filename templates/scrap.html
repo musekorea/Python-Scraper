@@ -4,10 +4,26 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/style.css')}}"
+    />
     <title>scrap</title>
   </head>
   <body>
     <h1>Search Results</h1>
-    <h3>You are looking for {{query}}</h3>
+    <h3>Found {{searchNum}} results for : {{query}}</h3>
+    <section>
+      <h4>Title</h4>
+      <h4>Company</h4>
+      <h4>Location</h4>
+      <h4>Link</h4>
+      {%for job in jobs%}
+      <span>{{job.title}}</span>
+      <span>{{job.company}}</span>
+      <span>{{job.location}}</span>
+      <a href="{{job.link}}">Apply</a>
+      {%endfor%}
+    </section>
   </body>
 </html>
